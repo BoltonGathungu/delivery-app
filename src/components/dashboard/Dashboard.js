@@ -8,7 +8,7 @@ function Dashboard({children}) {
         
       <Sidebar/>
 
-      <div className='flex-grow'>
+      <div className='flex-grow h-screen overflow-y-scroll'>
         {children}
       </div>
     </div>

@@ -4,107 +4,61 @@ import { IoIosSettings } from "react-icons/io";
 import { AiFillLike } from "react-icons/ai";
 import { FaShoppingCart } from "react-icons/fa";
 import Table from "../../components/dashboard/products/Table";
-// import { getItems } from "../../apis";
-import { useStore } from "../../store";
+import { getMenuItems,getMenuItemsByCategoryId } from "../../apis";
+import { useStore,useCategory } from "../../store";
+
+
 
 
 export default function Products() {
   const [loading, setLoading] = useState(false);
-  const [items , setItems] = useState([{
-    "_id": "63ff3aff033fe8a4e0989503",
-    "name": "matoke",
-    "categoryId": "63ff3ae4033fe8a4e0989500",
-    "price": 200,
-    "image": [
-        "https://healthiersteps.com/wp-content/uploads/2022/04/matoke-overlay.jpg"
-    ],
-    "vendor": "63fcd00ef30a045b75a7a27f",
-    "restaurantName": "Educhiks",
-    "description": "Served with beef stew",
-    "rating": [],
-    "status": true,
-    "createdAt": "2023-03-01T11:46:07.272Z",
-    "updatedAt": "2023-03-01T11:46:07.272Z",
-    "__v": 0,
-    "addOns": []
-        },
+  const [items , setItems] = useState([])
 
-{
-  "_id": "640050fc033fe8a4e0989508",
-  "name": "githeri",
-  "categoryId": "63ff3ae4033fe8a4e0989500",
-  "price": 180,
-  "image": [
-      "https://healthiersteps.com/wp-content/uploads/2022/04/matoke-overlay.jpg"
-  ],
-  "vendor": "63fcd00ef30a045b75a7a27f",
-  "restaurantName": "Educhiks",
-  "description": "With potatos",
-  "rating": [],
-  "status": true,
-  "createdAt": "2023-03-02T07:32:12.927Z",
-  "updatedAt": "2023-03-02T07:37:11.748Z",
-  "__v": 0,
-  "addOns": []
-        },
-{
-  "_id": "646f2d61403492a4b0691c27",
-  "name": "pizza",
-  "categoryId": "63ff3ae4033fe8a4e0989500",
-  "price": 1000,
-  "image": [
-      "https://images-gmi-pmc.edge-generalmills.com/c8cbc66e-8f56-4fcd-ae39-582c7d15668f.jpg"
-  ],
-  "vendor": "63fcd00ef30a045b75a7a27f",
-  "restaurantName": "Educhiks",
-  "description": "Pizza, dish of Italian origin consisting of a flattened disk of bread dough topped with some combination of olive oil, oregano, tomato, olives, mozzarella or other cheese, and many other ingredients, baked quickly—usually, in a commercial setting, using a wood-fired oven heated to a very high temperature—and served hot.",
-  "rating": [],
-  "status": true,
-  "createdAt": "2023-05-25T09:41:53.009Z",
-  "updatedAt": "2023-06-08T09:13:23.966Z",
-  "__v": 0,
-  "addOns": [
-      {
-          "_id": "648191591572bc13375aaa1b",
-          "name": "Extra Cheese",
-          "price": 55,
-          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqZu1-FOSOM8byFPIVln22czfCfp0wXDhlF3nYCIDocNA_kR2DxM9cGAU9DTniUsYJOPI&usqp=CAU",
-          "description": "Add extra cheese to your dish for a richer flavor.",
-          "createdAt": "2023-06-08T08:29:13.799Z",
-          "updatedAt": "2023-06-08T10:07:03.662Z",
-          "__v": 0
-      }
-    ]
-        },]);
-
+const categoryId = useCategory((state) => state.categoryId);
 const updateProducts = useStore((state) => state.updateProducts)
 const products = useStore((state) => state.products)
   
 useEffect(()=>{
-     updateProducts(products);
+     updateProducts(items.length);
 
    
 
   },[items]);
 
 
-  // useEffect(() => {
+  useEffect(() => {
+     if(categoryId && categoryId.length >0){
+      fetchDataByCategoryId();
+
+     } else{
+      fetchData();
+     }
     
-  //     fetchData();
     
-  // }, []);
+  }, [categoryId]);
 
 
 
   const fetchData = async () => {
     setLoading(true);
 
-    // const data =  await getItems();
+    const res =  await getMenuItems();
     
-
+     console.log(res.data.menuItems);
  
     setLoading(false);
-    // setItems(data);
+    setItems(res.data.menuItems);
+  };
+ 
+  const fetchDataByCategoryId = async () => {
+    setLoading(true);
+
+    const res =  await getMenuItemsByCategoryId(categoryId);
+    
+     console.log(res.data.menuItems);
+ 
+    setLoading(false);
+    setItems(res.data.menuItems);
   };
   return (
     <Dashboard>

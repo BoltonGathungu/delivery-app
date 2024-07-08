@@ -6,6 +6,9 @@ import Products from "./pages/dashboard/Products";
 import Sales from "./pages/dashboard/Sales";
 import Upload from "./pages/dashboard/Upload";
 import Register from "./pages/Register";
+import LoginUser from "./pages/LoginUser";
+import Edit from "./pages/dashboard/Edit";
+
 
 function App() {
   return (
@@ -19,6 +22,9 @@ function App() {
           <Route path="/dashboard/sales" element={<Sales />} />
           <Route path="/dashboard/upload" element={<Upload/>} />
           <Route path="/register" element={<Register/>} />
+          <Route path="/LoginUser" element={<LoginUser/>} />
+          <Route path="dashboard/edit/:id" element={<Edit />} />
+          
 
           
         </Routes>

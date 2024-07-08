@@ -75,7 +75,7 @@ function Upload() {
             }/>
         </div> 
 
-        <button className='p-2 bg-blue-500 rounded-full text-white ' onClick={handleClick}>Submit</button>
+        <button className='p-2 bg-blue-500 rounded-full text-white ' onClick={()=>handleClick}>Submit</button>
 
       </div>
       </div>

@@ -14,7 +14,7 @@ function Sidebar(){
     
 
     return (
-        <div className="w-[250px] h-screen bg-black text-white pt-5">
+        <div className="w-[250px] h-screen overflow-y-scroll bg-black text-white pt-5">
             <div className="flex gap-x-5 items-center border-b px-4 py-2 mx-1">
                 <div className="p-2 bg-white text-black rounded-full">
                     <FaBabyCarriage />

@@ -15,5 +15,39 @@ export const register = async (data) => {
     .then((response) => response)
     .catch((error) => {
       return error.response;
-    });
+    })};
+
+
+export const login = async (logindata) => {
+  try {
+    const response = await api.post("/auth/login", logindata);
+    return response;
+  } catch (error) {
+    return error.response;
+  }
 };
+export const getCategories = async () => {
+  try {
+    const response = await api.get("/categories");
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
+export const getMenuItems = async () => {
+  try {
+    const response = await api.get("/menuItems");
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
+export const getMenuItemsByCategoryId = async (categoryId) => {
+  try {
+    const response = await api.get(`/menuItems/category/${categoryId}`);
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
+
