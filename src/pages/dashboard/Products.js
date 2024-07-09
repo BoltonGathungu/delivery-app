@@ -4,8 +4,8 @@ import { IoIosSettings } from "react-icons/io";
 import { AiFillLike } from "react-icons/ai";
 import { FaShoppingCart } from "react-icons/fa";
 import Table from "../../components/dashboard/products/Table";
-import { getMenuItems,getMenuItemsByCategoryId } from "../../apis";
-import { useStore,useCategory } from "../../store";
+import { getMenuItems,getMenuItemsByCategoryId,searchMenuItem } from "../../apis";
+import { useStore,useCategory,useSearchItem } from "../../store";
 
 
 
@@ -15,6 +15,7 @@ export default function Products() {
   const [items , setItems] = useState([])
 
 const categoryId = useCategory((state) => state.categoryId);
+const searchItem = useSearchItem((state)=>state.searchItem);
 const updateProducts = useStore((state) => state.updateProducts)
 const products = useStore((state) => state.products)
   
@@ -27,6 +28,7 @@ useEffect(()=>{
 
 
   useEffect(() => {
+   
      if(categoryId && categoryId.length >0){
       fetchDataByCategoryId();
 
@@ -35,19 +37,19 @@ useEffect(()=>{
      }
     
     
-  }, [categoryId]);
+  }, [categoryId,searchItem]);
 
 
 
   const fetchData = async () => {
     setLoading(true);
 
-    const res =  await getMenuItems();
+    const res =  await searchMenuItem(searchItem);
     
-     console.log(res.data.menuItems);
+     console.log(res.data.menuItemsResults);
  
     setLoading(false);
-    setItems(res.data.menuItems);
+    setItems(res.data.menuItemsResults);
   };
  
   const fetchDataByCategoryId = async () => {
@@ -60,6 +62,8 @@ useEffect(()=>{
     setLoading(false);
     setItems(res.data.menuItems);
   };
+
+ 
   return (
     <Dashboard>
       <div className="bg-gray-100 h-screen w-full">

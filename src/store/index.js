@@ -22,6 +22,18 @@ export const useCategory = create((set) => ({
   updateCategoryId: (newCategoryId) => set({ categoryId: newCategoryId }),
 }))
 
+export const useSearchItem = create((set) => ({
+  searchItem: "",
+//   increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
+//   removeAllBears: () => set({ bears: 0 }),
+  updateSearchItem: (newSearchItem) => set({ searchItem: newSearchItem}), //function to update
+}))
 
+const updateuser = (name)=>{
+  const userName = name;
+
+} ;
+
+updateuser("bolton");
 
 

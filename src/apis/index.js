@@ -16,16 +16,23 @@ export const register = async (data) => {
     .catch((error) => {
       return error.response;
     })};
+export const login = async (data) => {
+  return await api
+    .post("/auth/login",data)
+    .then((response) => response)
+    .catch((error) => {
+      return error.response;
+    })};
 
 
-export const login = async (logindata) => {
-  try {
-    const response = await api.post("/auth/login", logindata);
-    return response;
-  } catch (error) {
-    return error.response;
-  }
-};
+// export const login = async (logindata) => {
+//   try {
+//     const response = await api.post("/auth/login", logindata);
+//     return response;
+//   } catch (error) {
+//     return error.response;
+//   }
+// };
 export const getCategories = async () => {
   try {
     const response = await api.get("/categories");
@@ -50,4 +57,15 @@ export const getMenuItemsByCategoryId = async (categoryId) => {
     return error.response;
   }
 };
+export const searchMenuItem = async (menuKeyword) => {
+  try {
+    const response = await api.get(`/search/menuItems?keyword=${menuKeyword}`);
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+
+
 

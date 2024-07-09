@@ -4,9 +4,9 @@ import { MdEdit } from "react-icons/md";
 import { useProduct } from "../../../store";
 import { useNavigate } from "react-router-dom";
 import { getCategories } from "../../../apis";
-import { useCategory } from "../../../store";
+import { useCategory, useSearchItem } from "../../../store";
 
-function Table({ items }) {
+function Table({ items,loading }) {
   // console.log(items);
   
   const navigate = useNavigate();
@@ -19,9 +19,12 @@ function Table({ items }) {
   const [categories,setCategories] = useState([]);
 
   // const [selectedCategory, setSelectedCategory] = useState("");
+  // creating an instance of the  global variables
+  const updateCategoryId = useCategory((state) => state.updateCategoryId); //function 
+  const categoryId = useCategory((state) => state.categoryId); //value
 
-  const updateCategoryId = useCategory((state) => state.updateCategoryId);
-  const categoryId = useCategory((state) => state.categoryId);
+ const updateSearchItem = useSearchItem((state)=>state.updateSearchItem);
+ const searchItem = useSearchItem((state)=>state.searchItem); 
 
 
 
@@ -63,8 +66,8 @@ const fetchCategories = async () => {
     <div className="w-full mt-10 bg-gray-100">
       <div className="flex justify-between px-6">
       <div className=" text-lg font-semibold py-2"> items Table</div>
-      <div>
-        
+      <div className="flex space-x-2 p-2">
+        <div>
        {!loadingCategory&& <select
           className="border border-black rounded-md"
           value={categoryId}
@@ -79,10 +82,18 @@ const fetchCategories = async () => {
             <option value={category._id} key={index}>{category.name} </option>
           )
         )}
-
-        
-         
         </select> }
+        </div>
+
+        <div>
+         <input type="text" name="search" placeholder="Search" className="" value={searchItem}
+         
+         onChange={(e)=>updateSearchItem(e.target.value)}/>
+
+        </div>
+
+      
+        
       </div>
 
 
@@ -99,6 +110,10 @@ const fetchCategories = async () => {
             <th>Action</th>
           </tr>
         </thead>
+
+        {loading?  <div className=" flex justify-center items-center bg-red-500">
+            <div className="animate-spin rounded-full h-7 w-7 border-b-2 border-black -py-1"></div>
+          </div>:
         <tbody>
           {items.map((item, index) => (
             <tr key={index}>
@@ -120,7 +135,7 @@ const fetchCategories = async () => {
             </tr>
           ))}
         
-        </tbody>
+        </tbody>}
       </table>
     </div>
   );

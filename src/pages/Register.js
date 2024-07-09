@@ -22,7 +22,7 @@ function Register() {
           role: role,
           names: names,
           phone: phone,
-          deviceToken: {token: "1335569",  platform: "web" }
+          
         });
         console.log(response);
       } catch (error) {

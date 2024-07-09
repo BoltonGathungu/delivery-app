@@ -7,17 +7,17 @@ function LoginUser() {
     const[email, setEmail] = useState();
     const [password, setPassword] = useState();
     const[errors, setErrors] =useState({});
-    const[isSubmitted, setIsSubmtted] = useState(false);
+    // const[isSubmitted, setIsSubmtted] = useState(false);
 
 
 
 
 
-    useEffect(()=>{
-        if(isSubmitted){
-            validateForm();
-        }
-    },[email,password]);
+    // useEffect(()=>{
+    //     if(isSubmitted){
+    //         validateForm();
+    //     }
+    // },[email,password]);
     
 
    
@@ -42,7 +42,7 @@ function LoginUser() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsSubmtted(true);
+        // setIsSubmtted(true);
 
         if(validateForm()){
            try {
