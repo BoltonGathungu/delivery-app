@@ -52,6 +52,7 @@ function LoginUser() {
                const response = await login({username : email,password});
                if(response.status===200){
                 console.log("Login successful", response.data);
+                localStorage.setItem('user', JSON.stringify(response.data.user))
                 navigate('/dashboard/products')
                }else{
                 console.log("Login failed", response.data);

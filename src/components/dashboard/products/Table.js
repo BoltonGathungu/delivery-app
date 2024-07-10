@@ -3,7 +3,7 @@ import { MdDelete } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import { useProduct } from "../../../store";
 import { useNavigate } from "react-router-dom";
-import { getCategories } from "../../../apis";
+import { getCategories, deleteMenuItem } from "../../../apis";
 import { useCategory, useSearchItem } from "../../../store";
 
 function Table({ items,loading }) {
@@ -30,9 +30,15 @@ function Table({ items,loading }) {
 
 
 
-  const deleteHandler = (item)=>{
+  const deleteHandler = async (item)=>{
     if (window.confirm("Are you sure you want to delete this product?") == true) {
       console.log(item)
+      try {
+        const response = await deleteMenuItem(item._id)
+        console.log(response)        
+      } catch (error) {
+        console.log(error)
+      }
     } else {
     }
   }

@@ -1,5 +1,6 @@
 import React from 'react'
 import Sidebar from './Sidebar'
+import Header from './Header'
 
 
 function Dashboard({children}) {
@@ -9,6 +10,7 @@ function Dashboard({children}) {
       <Sidebar/>
 
       <div className='flex-grow h-screen overflow-y-scroll'>
+        <Header />
         {children}
       </div>
     </div>

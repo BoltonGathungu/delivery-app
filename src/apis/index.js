@@ -65,6 +65,14 @@ export const searchMenuItem = async (menuKeyword) => {
     return error.response;
   }
 };
+export const deleteMenuItem = async (menuItemId) => {
+  try {
+    const response = await api.delete(`/menuItems/${menuItemId}`);
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
 
 
 
