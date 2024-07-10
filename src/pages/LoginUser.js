@@ -1,5 +1,6 @@
 import React,{useState, useEffect} from 'react'
 import { login } from '../apis';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -7,6 +8,7 @@ function LoginUser() {
     const[email, setEmail] = useState();
     const [password, setPassword] = useState();
     const[errors, setErrors] =useState({});
+    const navigate = useNavigate()
     // const[isSubmitted, setIsSubmtted] = useState(false);
 
 
@@ -41,16 +43,19 @@ function LoginUser() {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
         // setIsSubmtted(true);
+        e.preventDefault()
 
+      console.log("loging in")
         if(validateForm()){
            try {
-               const response = await login({email,password});
+               const response = await login({username : email,password});
                if(response.status===200){
                 console.log("Login successful", response.data);
+                navigate('/dashboard/products')
                }else{
                 console.log("Login failed", response.data);
+                setErrors(response.data)
                }
            } catch (error) {
                console.error("An error occurred during login", error);
@@ -63,6 +68,9 @@ function LoginUser() {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
     <div className="bg-white p-10 rounded-lg shadow-lg w-full max-w-md">
       <div className="text-2xl font-bold mb-6 text-center">Login</div>
+      
+      {errors.message && <p className="text-red-600 text-sm mt-1">{errors.message}</p>}
+
       <form >
         <div className="mb-4">
           <div className="block text-gray-700">Email</div>
