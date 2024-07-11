@@ -4,9 +4,9 @@ import { MdEdit } from "react-icons/md";
 import { useProduct } from "../../../store";
 import { useNavigate } from "react-router-dom";
 import { getCategories, deleteMenuItem } from "../../../apis";
-import { useCategory, useSearchItem } from "../../../store";
+import { useCategory, useSearchItem, useStore } from "../../../store";
 
-function Table({ items,loading }) {
+function Table({ items,loading,setItems }) {
   // console.log(items);
   
   const navigate = useNavigate();
@@ -17,6 +17,8 @@ function Table({ items,loading }) {
   
 
   const [categories,setCategories] = useState([]);
+  
+  
 
   // const [selectedCategory, setSelectedCategory] = useState("");
   // creating an instance of the  global variables
@@ -28,13 +30,20 @@ function Table({ items,loading }) {
 
 
 
+ const updateProducts = useStore((state) => state.updateProducts)
+ const products = useStore((state) => state.products)
 
-
-  const deleteHandler = async (item)=>{
+  const deleteHandler = async (deletedItem)=>{
     if (window.confirm("Are you sure you want to delete this product?") == true) {
-      console.log(item)
+      console.log(deletedItem)
       try {
-        const response = await deleteMenuItem(item._id)
+       
+          // Remove item from products array
+          const updatedProducts = items.filter(item => item._id !== deletedItem._id);
+        
+          // Update the products state
+          setItems(updatedProducts);
+        const response = await deleteMenuItem(deletedItem._id)
         console.log(response)        
       } catch (error) {
         console.log(error)
