@@ -1,6 +1,9 @@
 import { useState,useEffect } from 'react'
 import Dashboard from '../../components/dashboard/Dashboard'
 import { addMenuItem } from '../../apis';
+import { IoAddCircleOutline } from "react-icons/io5";
+
+
 
 
 function Upload() {
@@ -13,6 +16,22 @@ function Upload() {
     const [errorMsg, setErrorMsg] = useState();
     const [category,setCategory] = useState();
     const[restaurantName, setRestaurantName] = useState();
+    const[addOns, setAddOns] = useState([]);
+    const[addOnName, setaddOnName] = useState();
+    const[addOnImage, setaddOnImage] = useState("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXhYYIgGj21Z614wWjeEKaY86wq2KvfG-DBA&usqp=CAU");
+    const[addOnPrice, setaddOnPrice] = useState();
+    const[addOnDescription, setaddOnDescription] = useState();
+    const[showExtras,setShowExtras] = useState(false);
+
+    const addAddOnItems = ()=>{
+      if(addOnImage&& addOnPrice&& addOnDescription&& addOnName){
+        setAddOns(prevItems=>[...prevItems, {name: addOnName, image: addOnImage,
+           price: addOnPrice, description:addOnDescription}])
+          }
+       console.log("AddOns added", addOns)   
+          
+        
+    }
 
     const handleClick = async()=> {
 
@@ -21,8 +40,10 @@ function Upload() {
             //     setErrorMsg('Please enter the required fields')
             //    } else {
                 console.log("adding products")
+                console.log(name,category, description, restaurantName, cost, addOns)
+               
                 const res =await addMenuItem({name:name,categoryId:category,description:description,price:cost,restaurantName:restaurantName,
-                    image:"https://media.istockphoto.com/id/93456512/photo/raw-chicken.jpg?s=170667a&w=0&k=20&c=wKtim21u2NQ137WDMPOT4t3wE82pePf7H0e-KcN2Bgc="});
+                    image:"https://media.istockphoto.com/id/93456512/photo/raw-chicken.jpg?s=170667a&w=0&k=20&c=wKtim21u2NQ137WDMPOT4t3wE82pePf7H0e-KcN2Bgc=", extras:addOns});
                 setErrorMsg("");
                 console.log(res);
             //    }
@@ -128,11 +149,73 @@ function Upload() {
                 
             }/>
         </div>
-        <div className=''>Extras</div>
-        <div></div>
-        <button className='p-2 bg-blue-500 rounded-full text-white ' onClick={()=>handleClick()}>Submit</button>
+      
+        
+       
+
+      
+        
+
+        
+
+      
+
+     
 
       </div>
+
+      <div className='flex justify-between'>
+        <div className=''>Extras </div>
+        < IoAddCircleOutline  className= "text-3xl cursor-pointer"
+        onClick={()=>setShowExtras(!showExtras)}/>
+        </div>
+
+      {showExtras&& <div className='grid grid-cols-2 gap-4'>
+       <div>
+          <div className=''>Name</div>
+          <input type='text' placeholder='Enter name' name="addOnname"
+           className='border border-black rounded-md w-full py-2'
+           onChange={(e)=>setaddOnName(e.target.value)} />
+        </div>
+        <div>
+          <div className=''>Price</div>
+          <input type='number' placeholder='Enter price' name="addOnprice" 
+          className='border border-black rounded-md w-full py-2'
+          onChange={(e)=>setaddOnPrice(e.target.value)} />
+        </div>
+        <div>
+          <div className=''>Image</div>
+          <input type='file' placeholder='Upload file' 
+          name="addOnimage" className='border border-black rounded-md w-full py-2'
+          onChange={(e)=>setaddOnImage(e.target.value)} />
+        </div>
+        <div>
+            <div className=''>Description</div>
+            <textarea rows={5} type='text' placeholder='Enter message' name='addOndescription' className=' border border-black rounded-md w-full py-2'
+            onChange={(e)=> 
+                setaddOnDescription(e.target.value)
+                
+            }/>
+        </div>
+
+         <div></div>
+        <button className='p-2 bg-blue-500 rounded-full text-white ' 
+        onClick={()=>addAddOnItems()}>addOnSave</button> 
+
+       </div>}
+
+       <div>
+        <div>Extras added</div>
+        <div>{addOns.map((addOn, index)=>
+        
+      <div key={index}> {addOn.name}</div>)}
+      </div>
+        </div>
+
+        <div></div>
+        <button className='p-2 bg-blue-500 rounded-full text-white ' 
+        onClick={()=>handleClick()}>Submit</button>
+
       </div>
 
     </Dashboard>

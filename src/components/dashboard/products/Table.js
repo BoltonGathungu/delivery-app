@@ -126,7 +126,7 @@ const fetchCategories = async () => {
           </tr>
         </thead>
 
-        {loading?  <div className=" flex justify-center items-center bg-red-500">
+        {loading?  <div className=" fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-75 z-50">
             <div className="animate-spin rounded-full h-7 w-7 border-b-2 border-black -py-1"></div>
           </div>:
         <tbody>
