@@ -49,14 +49,14 @@ function Sidebar(){
             </Link>
 
             
-            <div className="flex gap-x-5 items-center px-4 py-2 mt-2 cursor-pointer hover:bg-blue-500 mx-1 rounded-full">
+            <Link to='/dashboard/upload' className="flex gap-x-5 items-center px-4 py-2 mt-2 cursor-pointer hover:bg-blue-500 mx-1 rounded-full">
                 <div className="p-2 ">
                    <FaUpload className=""/>
                 </div>
                 <div className="">
                     Upload
                 </div>
-            </div>
+            </Link>
 
         </div>
     );

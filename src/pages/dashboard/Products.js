@@ -88,7 +88,7 @@ useEffect(()=>{
             <div className="text-center">Like Us</div>
           </div>
         </div>
-        <Table items={items} loading={loading} />
+        <Table items={items} loading={loading} setItems={setItems} />
       </div>
     </Dashboard>
   );

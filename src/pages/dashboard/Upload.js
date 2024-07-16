@@ -1,31 +1,39 @@
 import { useState,useEffect } from 'react'
-import Dashboard from '../../components/dashboard/Dashboard'
+import Dashboard from '../../components/dashboard/Dashboard';
+import { addMenuItem } from '../../apis';
 
 
 function Upload() {
 
    
     const [name,setName] = useState();
-    const [amount,setAmount] = useState();
     const [description,setDescription] = useState();
     const [cost, setCost] = useState();
     const [errorMsg, setErrorMsg] = useState();
+    const [category, setCategory] = useState()
+    const [restaurantName, setRestaurantName] = useState()
 
-    const handleClick = ()=> {
-       if(!name|| !amount|| !description||!cost){
-        setErrorMsg('Please enter the required fields')
-       } else{
-        setErrorMsg("");
-       }
+    const handleClick = async ()=> {
+        try {
+            if(!name|| !description||!cost|| category || restaurantName){
+             setErrorMsg('Please enter the required fields')
+            } else{
+                console.log('addign products')
+                const res = await addMenuItem({name:name,categoryId:category,description:description,price:cost,restaurantName:restaurantName,image:"https://media.istockphoto.com/id/93456512/photo/raw-chicken.jpg?s=170667a&w=0&k=20&c=wKtim21u2NQ137WDMPOT4t3wE82pePf7H0e-KcN2Bgc="})
+             setErrorMsg("");
+             console.log(res);
+            } 
+        } catch (error) {
+            console.log(error)
+        }
     }
     
 
     useEffect  (()=> {
         console.log(name);
-        console.log(amount)
         console.log(cost)
         console.log(description)
-    },[name, cost, amount, description]);
+    },[name, cost, description]);
   return (
     <Dashboard>
         <div >
@@ -47,15 +55,46 @@ function Upload() {
             }/>
         </div>
        
-        <div>
-            <div className=''>Amount</div>
-            <input type='number' placeholder='Enter amount' name='amount' className=' border border-black rounded-md w-full py-2'
-            
-            onChange={(e)=> 
-                setAmount(e.target.value)
-                
-            }/>
+        <div className="">
+          <div className="block text-sm font-medium text-black">
+            Select Category
+          </div>
+          <select
+            id="currency"
+            name="category"
+            onChange={(e) => setCategory(e.target.value)}
+            autoComplete="category"
+            className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm"
+          >
+            <option value="">Select currency</option>
+            <option value="63ff3ae4033fe8a4e0989500">Food</option>
+            <option value="640052ea68e94db42ffb8621">Beverages</option>
+            <option value="646f495f5d3715d1caae1ef6">Appetizers</option>
+            <option value="646f4a165d3715d1caae1efb">Fruits</option>
+            <option value="646f4aa2ef37c9089deb6352">Alcohol</option>
+            <option value="646f4b27d83d3c0fdbd2d7f5">Asian Cuisine</option>
+            <option value="646f4b71d83d3c0fdbd2d7f7">Italian Cuisine</option>
+            <option value="646f4b9ad83d3c0fdbd2d7f9">Healthy Options</option>
+            <option value="646f4c34d83d3c0fdbd2d7fb">Breakfast and Brunch</option>
+          </select>
         </div>
+
+        <div className="">
+          <div className="block text-sm font-medium text-black">
+            Select Category
+          </div>
+          <select
+            id="currency"
+            name="category"
+            onChange={(e) => setCategory(e.target.value)}
+            autoComplete="category"
+            className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm"
+          >
+            <option value="">Select Restaurant</option>
+            <option value="educhicks">EduChicks</option>
+          </select>
+        </div>
+
         <div>
             <div className=''>Cost</div>
             <input type='number' placeholder='Enter cost' name='cost' className=' border border-black rounded-md w-full py-2'
@@ -73,9 +112,21 @@ function Upload() {
                 setDescription(e.target.value)
                 
             }/>
-        </div> 
+        </div>
 
-        <button className='p-2 bg-blue-500 rounded-full text-white ' onClick={()=>handleClick}>Submit</button>
+        <div>
+            <div className=''>Product Image</div>
+            <input type='file' placeholder='Upload Image' name='Product Image' className='rounded-md w-full' 
+            
+            onChange={(e)=> 
+                setName(e.target.value)
+                
+            }/>
+        </div>
+
+        <div className=''>Extras</div>
+
+        <button className='p-2 bg-blue-500 rounded-full text-white ' onClick={()=>handleClick()}>Submit</button>
 
       </div>
       </div>
