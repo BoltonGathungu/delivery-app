@@ -5,6 +5,7 @@ import { useProduct } from "../../../store";
 import { useNavigate } from "react-router-dom";
 import { getCategories, deleteMenuItem } from "../../../apis";
 import { useCategory, useSearchItem, useStore } from "../../../store";
+import { Link } from "react-router-dom";
 
 function Table({ items,loading,setItems }) {
   // console.log(items);
@@ -139,9 +140,9 @@ const fetchCategories = async () => {
               <td className="text-center">ksh. {item.price}</td>
               <td className="flex justify-center ">
                 <div className="flex items-center gap-x-2">
-                  <div className="p-1 hover:bg-gray-400 rounded-full cursor-pointer " onClick={()=>editHandler(item)}>
+                  <Link to={`/dashboard/edit/${item._id}`} className="p-1 hover:bg-gray-400 rounded-full cursor-pointer " >
                     <MdEdit className=" text-gray-800" />
-                  </div>
+                  </Link>
                   <div className="p-1 hover:bg-gray-400 rounded-full cursor-pointer " onClick={()=>deleteHandler(item)}>
                     <MdDelete className="text-red-500" />
                   </div>
