@@ -63,7 +63,7 @@ function Upload() {
     },[name, cost, description]);
   return (
     <Dashboard>
-        <div >
+        <div className='max-w-4xl mx-auto mt-5 p-5 bg-white ' >
        <div className='text-center mt-5 font-bold tracking-wide text-2xl '>
            Uploading Product
       </div>
@@ -73,8 +73,9 @@ function Upload() {
 
       <div className='grid grid-cols-1 md:grid-cols-2 gap-4 px-10 '>
         <div>
-            <div className=''>Name</div>
-            <input type='text' placeholder='Enter item name' name='ItemName' className=' border border-black rounded-md w-full py-2' 
+            <div className='mb-2'>Name</div>
+            <input type='text' placeholder='Enter item name' name='ItemName' 
+            className=' rounded-md w-full py-2 px-3 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500' 
             
             onChange={(e)=> 
                 setName(e.target.value)
@@ -82,7 +83,7 @@ function Upload() {
             }/>
         </div>
         <div className="">
-          <div className="block text-sm font-medium text-black">
+          <div className="mb-4 block text-sm font-medium text-black focus:outline-none focus:ring-2 focus:ring-blue-500">
             Select Category
           </div>
           <select
@@ -124,7 +125,8 @@ function Upload() {
         
         <div>
             <div className=''>Cost</div>
-            <input type='number' placeholder='Enter cost' name='cost' className=' border border-black rounded-md w-full py-2'
+            <input type='number' placeholder='Enter cost' name='cost' 
+            className=' focus:outline-none focus:ring-2 focus:ring-blue-500  rounded-md w-full py-2'
             
             onChange={(e)=> 
                 setCost(e.target.value)
@@ -134,7 +136,8 @@ function Upload() {
 
         <div>
             <div className=''>Description</div>
-            <textarea rows={5} type='text' placeholder='Enter message' name='description' className=' border border-black rounded-md w-full py-2'
+            <textarea rows={5} type='text' placeholder='Enter message' name='description' 
+            className='focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md w-full py-2'
             onChange={(e)=> 
                 setDescription(e.target.value)
                 
@@ -149,28 +152,15 @@ function Upload() {
                 
             }/>
         </div>
-      
-        
-       
-
-      
-        
-
-        
-
-      
-
-     
-
       </div>
 
-      <div className='flex justify-between'>
+      <div className='flex justify-between px-10'>
         <div className=''>Extras </div>
         < IoAddCircleOutline  className= "text-3xl cursor-pointer"
         onClick={()=>setShowExtras(!showExtras)}/>
         </div>
 
-      {showExtras&& <div className='grid grid-cols-2 gap-4'>
+      {showExtras&& <div className='grid grid-cols-2 gap-4 px-10'>
        <div>
           <div className=''>Name</div>
           <input type='text' placeholder='Enter name' name="addOnname"
@@ -205,7 +195,7 @@ function Upload() {
        </div>}
 
        <div>
-        <div>Extras added</div>
+        <div className='px-10'>Extras added</div>
         <div>{addOns.map((addOn, index)=>
         
       <div key={index}> {addOn.name}</div>)}
@@ -213,7 +203,7 @@ function Upload() {
         </div>
 
         <div></div>
-        <button className='p-2 bg-blue-500 rounded-full text-white ' 
+        <button className=' mx-10 px-10 mt-10 bg-blue-500 rounded-full text-white ' 
         onClick={()=>handleClick()}>Submit</button>
 
       </div>
