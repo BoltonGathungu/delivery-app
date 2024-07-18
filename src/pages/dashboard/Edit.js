@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import Dashboard from "../../components/dashboard/Dashboard";
 import { useProduct } from "../../store";
+import { useParams } from 'react-router-dom';
+import { getMenuItem } from "../../apis";
+import { updateMenuItem } from "../../apis";
 
 function Edit() {
   const [name, setName] = useState();
@@ -8,7 +11,28 @@ function Edit() {
   const [description, setDescription] = useState();
   const [cost, setCost] = useState();
   const [errorMsg, setErrorMsg] = useState();
-
+  let {id } = useParams();
+  console.log(id);
+  const fetchProduct = async () => {
+      try {
+        const res =await getMenuItem(id)
+        console.log(res)
+        setName(res?.data?.menu?.name)
+        setCost(res?.data?.menu?.price)
+        setDescription(res?.data?.menu?.description)
+      } catch (error) {
+        console.log(error)
+      }
+  
+  }
+  const updateProductItem= async() =>{
+    try {
+      
+    } catch (error) {
+      
+    }
+  }
+  useEffect(()=>{fetchProduct()},[])
   const handleClick = () => {
     if (!name || !amount || !description || !cost) {
       setErrorMsg("Please enter the required fields");
@@ -19,12 +43,7 @@ function Edit() {
 
   const product = useProduct((state) => state.product);
 
-  useEffect(() => {
-    console.log(name);
-    console.log(amount);
-    console.log(cost);
-    console.log(description);
-  }, [name, cost, amount, description]);
+  
   return (
     <Dashboard>
       <div>
@@ -43,30 +62,22 @@ function Edit() {
               type="text"
               placeholder="Enter item name"
               name="ItemName"
-              value={product.name}
+              value={name}
               className=" border border-black rounded-md w-full py-2"
               onChange={(e) => setName(e.target.value)}
             />
           </div>
 
-          <div>
-            <div className="">Amount</div>
-            <input
-              type="number"
-              placeholder="Enter amount"
-              name="amount"
-              className=" border border-black rounded-md w-full py-2"
-              onChange={(e) => setAmount(e.target.value)}
-            />
-          </div>
+          
           <div>
             <div className="">Cost</div>
             <input
               type="number"
               placeholder="Enter cost"
               name="cost"
+              value={cost}
               className=" border border-black rounded-md w-full py-2"
-              onChange={(e) => setCost(e.target.value)}
+               onChange={(e) => setCost(e.target.value)}
             />
           </div>
 
@@ -77,6 +88,7 @@ function Edit() {
               type="text"
               placeholder="Enter message"
               name="description"
+              value={description}
               className=" border border-black rounded-md w-full py-2"
               onChange={(e) => setDescription(e.target.value)}
             />
@@ -84,7 +96,7 @@ function Edit() {
 
           <button
             className="p-2 bg-blue-500 rounded-full text-white "
-            onClick={handleClick}
+            onClick={()=>updateMenuItem()}
           >
             Submit
           </button>

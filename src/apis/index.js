@@ -83,5 +83,22 @@ export const deleteMenuItem = async (menuItemId) => {
 };
 
 
-
+export const getMenuItem = async (menuItemId) => {
+  try {
+    const response = await api.get(`/menuItems/${menuItemId}`);
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+  
+};
+export const updateMenuItem = async (menuItemId,menuItem) => {
+  try {
+    const response = await api.patch(`/menuItems/${menuItemId}`,menuItem);
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+  
+};
 
