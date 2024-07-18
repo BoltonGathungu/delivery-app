@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { getCategories, deleteMenuItem } from "../../../apis";
 import { useCategory, useSearchItem, useStore } from "../../../store";
 
-function Table({ items,loading, setItems }) {
+function Table({ items,loading,setItems }) {
   // console.log(items);
   
   const navigate = useNavigate();
@@ -17,7 +17,8 @@ function Table({ items,loading, setItems }) {
   
 
   const [categories,setCategories] = useState([]);
-
+  
+  
 
   // const [selectedCategory, setSelectedCategory] = useState("");
   // creating an instance of the  global variables
@@ -36,11 +37,12 @@ function Table({ items,loading, setItems }) {
     if (window.confirm("Are you sure you want to delete this product?") == true) {
       console.log(deletedItem)
       try {
-        // Remove item from products array
-        const updatedProducts = items.filter(product => product._id == deletedItem._id)
-
-        //update the products state
-        setItems(updatedProducts)
+       
+          // Remove item from products array
+          const updatedProducts = items.filter(item => item._id !== deletedItem._id);
+        
+          // Update the products state
+          setItems(updatedProducts);
         const response = await deleteMenuItem(deletedItem._id)
         console.log(response)        
       } catch (error) {
@@ -124,7 +126,7 @@ const fetchCategories = async () => {
           </tr>
         </thead>
 
-        {loading?  <div className=" flex justify-center items-center bg-red-500">
+        {loading?  <div className=" fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-75 z-50">
             <div className="animate-spin rounded-full h-7 w-7 border-b-2 border-black -py-1"></div>
           </div>:
         <tbody>

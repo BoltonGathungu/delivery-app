@@ -29,11 +29,8 @@ export const useSearchItem = create((set) => ({
   updateSearchItem: (newSearchItem) => set({ searchItem: newSearchItem}), //function to update
 }))
 
-const updateuser = (name)=>{
-  const userName = name;
 
-} ;
 
-updateuser("bolton");
+
 
 

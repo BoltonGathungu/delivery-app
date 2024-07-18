@@ -7,7 +7,7 @@ const Header = () => {
     <div>
       <div className='flex items-center justify-between'>
         <div className="mx-2 py-5 text-lg font-bold">Dashboard V2</div>
-        <div className=''>{user?.email}</div>
+        <div className='px-5'>{user?.email}</div>
       </div>
     </div>
   )
