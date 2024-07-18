@@ -27,9 +27,10 @@ function Edit() {
   }
   const updateProductItem= async() =>{
     try {
-      
+      const res = await updateMenuItem(id, {name: name, price:cost, description:description, addOns:[]})
+      console.log(res)
     } catch (error) {
-      
+      console.log(error)
     }
   }
   useEffect(()=>{fetchProduct()},[])
@@ -96,7 +97,7 @@ function Edit() {
 
           <button
             className="p-2 bg-blue-500 rounded-full text-white "
-            onClick={()=>updateMenuItem()}
+            onClick={()=>updateProductItem()}
           >
             Submit
           </button>

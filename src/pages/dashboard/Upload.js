@@ -2,6 +2,8 @@ import { useState,useEffect } from 'react'
 import Dashboard from '../../components/dashboard/Dashboard'
 import { addMenuItem } from '../../apis';
 import { IoAddCircleOutline } from "react-icons/io5";
+import { firebaseUploadImg } from '../../apis/Upload';
+import { getDownloadURL } from "firebase/storage";
 
 
 
@@ -61,6 +63,47 @@ function Upload() {
         console.log(cost)
         console.log(description)
     },[name, cost, description]);
+
+    const uploadImage = (input) => {
+      const files = input.target.files || [];
+      console.log('kite')
+      if (files.length === 0) {
+        return false;
+      }
+      const reader = new FileReader();
+  
+      reader.readAsDataURL(files[0]);
+  
+      reader.onload = (e) => {
+        // setFileLoading(true);
+        const uploadTask = firebaseUploadImg(files[0]);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const prog = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+          },
+          (err) => {},
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+              // setFileLoading(false);
+              // setImageUrl(url);
+  
+              // setImagesArray((current) => [...current, url]);
+              console.log(url);
+            });
+          }
+        );
+  
+        return true;
+      };
+  
+      reader.onprogress = function (e) {
+        //Loader
+      };
+    };
+
   return (
     <Dashboard>
         <div className='max-w-4xl mx-auto mt-5 p-5 bg-white ' >
@@ -150,7 +193,7 @@ function Upload() {
             <input type='file' placeholder='Upload image ' name='ProductImage' className='  rounded-md w-full ' 
             
             onChange={(e)=> 
-                setName(e.target.value)
+                uploadImage(e)
                 
             }/>
         </div>
