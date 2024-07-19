@@ -7,7 +7,7 @@ import { getCategories, deleteMenuItem } from "../../../apis";
 import { useCategory, useSearchItem, useStore } from "../../../store";
 import { Link } from "react-router-dom";
 
-function Table({ items,loading,setItems }) {
+function Table({items,loading,setItems}) {
   // console.log(items);
   
   const navigate = useNavigate();

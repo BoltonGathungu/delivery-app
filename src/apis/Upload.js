@@ -1,4 +1,4 @@
-import axios from 'axios';
+
 import { storage } from '../Firebase';
 import { ref, uploadBytesResumable } from "@firebase/storage";
 

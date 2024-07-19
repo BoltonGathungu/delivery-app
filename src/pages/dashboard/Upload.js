@@ -24,6 +24,8 @@ function Upload() {
     const[addOnPrice, setaddOnPrice] = useState();
     const[addOnDescription, setaddOnDescription] = useState();
     const[showExtras,setShowExtras] = useState(false);
+    const[productImage,setProductImage] = useState();
+    
 
     const addAddOnItems = ()=>{
       if(addOnImage&& addOnPrice&& addOnDescription&& addOnName){
@@ -45,7 +47,7 @@ function Upload() {
                 console.log(name,category, description, restaurantName, cost, addOns)
                
                 const res =await addMenuItem({name:name,categoryId:category,description:description,price:cost,restaurantName:restaurantName,
-                    image:"https://media.istockphoto.com/id/93456512/photo/raw-chicken.jpg?s=170667a&w=0&k=20&c=wKtim21u2NQ137WDMPOT4t3wE82pePf7H0e-KcN2Bgc=", extras:addOns});
+                    image:productImage, extras:addOns});
                 setErrorMsg("");
                 console.log(res);
             //    }
@@ -66,7 +68,7 @@ function Upload() {
 
     const uploadImage = (input) => {
       const files = input.target.files || [];
-      console.log('kite')
+      console.log(files)
       if (files.length === 0) {
         return false;
       }
@@ -87,11 +89,9 @@ function Upload() {
           (err) => {},
           () => {
             getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-              // setFileLoading(false);
-              // setImageUrl(url);
-  
-              // setImagesArray((current) => [...current, url]);
+              
               console.log(url);
+              setProductImage(url);
             });
           }
         );
@@ -190,12 +190,15 @@ function Upload() {
         </div> 
         <div>
             <div className=''>Product Image</div>
-            <input type='file' placeholder='Upload image ' name='ProductImage' className='  rounded-md w-full ' 
+            <input type='file' placeholder='Upload image ' name='ProductImage' className='  rounded-md w-full '
+            accept="image/*" 
             
             onChange={(e)=> 
                 uploadImage(e)
                 
             }/>
+
+            {productImage && <img src={productImage} alt='food' className='h-40 w-40 object-cover'/>}
         </div>
       </div>
 
