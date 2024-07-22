@@ -1,6 +1,6 @@
 import About from "./pages/About";
  import Home from "./pages/Home";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/home/Navbar";
 import Products from "./pages/dashboard/Products";
 import Sales from "./pages/dashboard/Sales";
