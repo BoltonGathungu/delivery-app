@@ -20,7 +20,7 @@ function Upload() {
     const[restaurantName, setRestaurantName] = useState();
     const[addOns, setAddOns] = useState([]);
     const[addOnName, setaddOnName] = useState();
-    const[addOnImage, setaddOnImage] = useState("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXhYYIgGj21Z614wWjeEKaY86wq2KvfG-DBA&usqp=CAU");
+    const[addOnImage, setaddOnImage] = useState();
     const[addOnPrice, setaddOnPrice] = useState();
     const[addOnDescription, setaddOnDescription] = useState();
     const[showExtras,setShowExtras] = useState(false);
@@ -89,9 +89,14 @@ function Upload() {
           (err) => {},
           () => {
             getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-              
-              console.log(url);
-              setProductImage(url);
+              if(input.target.name === "ProductImage"){
+                console.log("productImage: ", url);
+                setProductImage(url);
+              }
+              if(input.target.name === "addOnImage"){
+                console.log('addOnImage: ', url)
+                setaddOnImage(url);
+              }
             });
           }
         );
@@ -224,8 +229,8 @@ function Upload() {
         <div>
           <div className=''>Image</div>
           <input type='file' placeholder='Upload file' 
-          name="addOnimage" className='border border-black rounded-md w-full py-2'
-          onChange={(e)=>setaddOnImage(e.target.value)} />
+          name="addOnImage" className='border border-black rounded-md w-full py-2'
+          onChange={(e)=>uploadImage(e)} />
         </div>
         <div>
             <div className=''>Description</div>
