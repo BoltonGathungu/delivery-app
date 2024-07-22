@@ -1,0 +1,3 @@
+[submodule "delivery-app"]
+  path = delivery-app
+  url = https://github.com/BoltonGathungu/delivery-app.git
