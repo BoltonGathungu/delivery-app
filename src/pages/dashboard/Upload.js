@@ -1,265 +1,223 @@
-import { useState,useEffect } from 'react'
-import Dashboard from '../../components/dashboard/Dashboard'
-import { addMenuItem } from '../../apis';
+import { useState, useEffect } from "react";
+import Dashboard from "../../components/dashboard/Dashboard";
+import { addMenuItem } from "../../apis";
 import { IoAddCircleOutline } from "react-icons/io5";
-import { firebaseUploadImg } from '../../apis/Upload';
+import { firebaseUploadImg } from "../../apis/Upload";
 import { getDownloadURL } from "firebase/storage";
-
-
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 function Upload() {
+  const [name, setName] = useState();
 
-   
-    const [name,setName] = useState();
-  
-    const [description,setDescription] = useState();
-    const [cost, setCost] = useState();
-    const [errorMsg, setErrorMsg] = useState();
-    const [category,setCategory] = useState();
-    const[restaurantName, setRestaurantName] = useState();
-    const[addOns, setAddOns] = useState([]);
-    const[addOnName, setaddOnName] = useState();
-    const[addOnImage, setaddOnImage] = useState();
-    const[addOnPrice, setaddOnPrice] = useState();
-    const[addOnDescription, setaddOnDescription] = useState();
-    const[showExtras,setShowExtras] = useState(false);
-    const[productImage,setProductImage] = useState();
-    
+  const [description, setDescription] = useState();
+  const [cost, setCost] = useState();
+  const [errorMsg, setErrorMsg] = useState();
+  const [category, setCategory] = useState();
+  const [restaurantName, setRestaurantName] = useState();
+  const [addOns, setAddOns] = useState([]);
 
-    const addAddOnItems = ()=>{
-      if(addOnImage&& addOnPrice&& addOnDescription&& addOnName){
-        setAddOns(prevItems=>[...prevItems, {name: addOnName, image: addOnImage,
-           price: addOnPrice, description:addOnDescription}])
-          }
-       console.log("AddOns added", addOns)   
-          
-        
-    }
+  const [productImage, setProductImage] = useState();
+  const navigate = useNavigate();
+  const handleClick = async () => {
+    try {
+      if (
+        !name ||
+        !category ||
+        !restaurantName ||
+        !description ||
+        !cost ||
+        !productImage
+      ) {
+        // setErrorMsg("");
+        return toast.error("Please enter the required fields!");
+      } else {
+        console.log("adding products");
+        console.log(name, category, description, restaurantName, cost);
 
-    const handleClick = async()=> {
-
-        try {
-            // if(!name||!category||!restaurantName|| !description||!cost){
-            //     setErrorMsg('Please enter the required fields')
-            //    } else {
-                console.log("adding products")
-                console.log(name,category, description, restaurantName, cost, addOns)
-               
-                const res =await addMenuItem({name:name,categoryId:category,description:description,price:cost,restaurantName:restaurantName,
-                    image:productImage, extras:addOns});
-                setErrorMsg("");
-                console.log(res);
-            //    }
-            
-        } catch (error) {
-          console.log(error)  
+        const res = await addMenuItem({
+          name: name,
+          categoryId: category,
+          description: description,
+          price: cost,
+          restaurantName: restaurantName,
+          image: productImage,
+          extras: [],
+        });
+        toast.success("Product uploaded!");
+        navigate("/dashboard/products");
+        setErrorMsg("");
+        console.log(res);
+        if (res.status !== 201) {
+          toast.error("Something went wrong!");
         }
-      
-    }
-    
-
-    useEffect  (()=> {
-        console.log(name);
-       
-        console.log(cost)
-        console.log(description)
-    },[name, cost, description]);
-
-    const uploadImage = (input) => {
-      const files = input.target.files || [];
-      console.log(files)
-      if (files.length === 0) {
-        return false;
       }
-      const reader = new FileReader();
-  
-      reader.readAsDataURL(files[0]);
-  
-      reader.onload = (e) => {
-        // setFileLoading(true);
-        const uploadTask = firebaseUploadImg(files[0]);
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            const prog = Math.round(
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            );
-          },
-          (err) => {},
-          () => {
-            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-              if(input.target.name === "ProductImage"){
-                console.log("productImage: ", url);
-                setProductImage(url);
-              }
-              if(input.target.name === "addOnImage"){
-                console.log('addOnImage: ', url)
-                setaddOnImage(url);
-              }
-            });
-          }
-        );
-  
-        return true;
-      };
-  
-      reader.onprogress = function (e) {
-        //Loader
-      };
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong!");
+    }
+  };
+
+  useEffect(() => {
+    console.log(name);
+
+    console.log(cost);
+    console.log(description);
+  }, [name, cost, description]);
+
+  const uploadImage = (input) => {
+    const files = input.target.files || [];
+    console.log(files);
+    if (files.length === 0) {
+      return false;
+    }
+    const reader = new FileReader();
+
+    reader.readAsDataURL(files[0]);
+
+    reader.onload = (e) => {
+      // setFileLoading(true);
+      const uploadTask = firebaseUploadImg(files[0]);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const prog = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+        },
+        (err) => {},
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            console.log("productImage: ", url);
+            setProductImage(url);
+          });
+        }
+      );
+
+      return true;
     };
+
+    reader.onprogress = function (e) {
+      //Loader
+    };
+  };
 
   return (
     <Dashboard>
-        <div className='max-w-4xl mx-auto mt-5 p-5 bg-white ' >
-       <div className='text-center mt-5 font-bold tracking-wide text-2xl '>
-           Uploading Product
-      </div>
+      <div className="max-w-4xl mx-auto mt-5 p-5 bg-white ">
+        <div className="text-center mt-5 font-bold tracking-wide text-2xl ">
+          Uploading Product
+        </div>
 
         {errorMsg && (
           <div className="text-sm text-center text-red-500">{errorMsg}</div>
         )}
 
-
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-4 px-10 '>
-        <div>
-            <div className='mb-2'>Name</div>
-            <input type='text' placeholder='Enter item name' name='ItemName' 
-            className=' rounded-md w-full py-2 px-3 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500' 
-            
-            onChange={(e)=> 
-                setName(e.target.value)
-                
-            }/>
-        </div>
-        <div className="">
-          <div className="mb-4 block text-sm font-medium text-black focus:outline-none focus:ring-2 focus:ring-blue-500">
-            Select Category
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 px-10 ">
+          <div>
+            <div className="">Name</div>
+            <input
+              type="text"
+              placeholder="Enter item name"
+              name="ItemName"
+              className=" rounded-md w-full py-2 px-3  border border-black"
+              onChange={(e) => setName(e.target.value)}
+            />
           </div>
-          <select
-            id="category"
-            name="category"
-            onChange={(e) => setCategory(e.target.value)}
-            autoComplete="category"
-            className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm  sm:text-sm"
-          >
-            <option value="">Select category</option>
-            <option value="63ff3ae4033fe8a4e0989500">Food</option>
-            <option value="640052ea68e94db42ffb8621">Beverages</option>
-            <option value="646f495f5d3715d1caae1ef6">Appetizers</option>
-            <option value="646f4a165d3715d1caae1efb">Fruits</option>
-            <option value="646f4b27d83d3c0fdbd2d7f5">Asian Cusine</option>
-            <option value="646f4aa2ef37c9089deb6352">Alcohol</option>
-            <option value="646f4b71d83d3c0fdbd2d7f7">Italian Cusine</option>
-            <option value="646f4b9ad83d3c0fdbd2d7f9">Healthy Options</option>
-            <option value="646f4c34d83d3c0fdbd2d7fb">BreakFast and Brunch</option>
-           
-          </select>
-        </div>
-        <div className="">
-          <div className="block text-sm font-medium text-black">
-            Select Restaurant
+          <div className="">
+            <div className=" block text-sm font-medium ">Select Category</div>
+            <select
+              id="category"
+              name="category"
+              onChange={(e) => setCategory(e.target.value)}
+              autoComplete="category"
+              className="mt-1 block w-full rounded-md border border-black bg-white py-2 px-3 shadow-sm  sm:text-sm"
+            >
+              <option value="">Select category</option>
+              <option value="63ff3ae4033fe8a4e0989500">Food</option>
+              <option value="640052ea68e94db42ffb8621">Beverages</option>
+              <option value="646f495f5d3715d1caae1ef6">Appetizers</option>
+              <option value="646f4a165d3715d1caae1efb">Fruits</option>
+              <option value="646f4b27d83d3c0fdbd2d7f5">Asian Cusine</option>
+              <option value="646f4aa2ef37c9089deb6352">Alcohol</option>
+              <option value="646f4b71d83d3c0fdbd2d7f7">Italian Cusine</option>
+              <option value="646f4b9ad83d3c0fdbd2d7f9">Healthy Options</option>
+              <option value="646f4c34d83d3c0fdbd2d7fb">
+                BreakFast and Brunch
+              </option>
+            </select>
+                    
           </div>
-          <select
-            id="restaurant"
-            name="restaurant"
-            onChange={(e) => setRestaurantName(e.target.value)}
-            autoComplete="restaurant"
-            className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm  sm:text-sm"
-          >
-            <option value="">Select restaurant</option>
-            <option value="Educhiks">Educhiks</option>
-          
-          </select>
-        </div>
-        
-        <div>
-            <div className=''>Cost</div>
-            <input type='number' placeholder='Enter cost' name='cost' 
-            className=' focus:outline-none focus:ring-2 focus:ring-blue-500  rounded-md w-full py-2'
-            
-            onChange={(e)=> 
-                setCost(e.target.value)
-                
-            }/>
-        </div>
+          <div className="">
+            <div className="block text-sm font-medium text-black">
+              Select Restaurant
+            </div>
+            <select
+              id="restaurant"
+              name="restaurant"
+              onChange={(e) => setRestaurantName(e.target.value)}
+              autoComplete="restaurant"
+              className="mt-1 block w-full rounded-md border border-black bg-white py-2 px-3 shadow-sm  sm:text-sm"
+            >
+              <option value="">Select restaurant</option>
+              <option value="Educhiks">Educhiks</option>
+            </select>
+                    
+          </div>
 
-        <div>
-            <div className=''>Description</div>
-            <textarea rows={5} type='text' placeholder='Enter message' name='description' 
-            className='focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md w-full py-2'
-            onChange={(e)=> 
-                setDescription(e.target.value)
-                
-            }/>
-        </div> 
-        <div>
-            <div className=''>Product Image</div>
-            <input type='file' placeholder='Upload image ' name='ProductImage' className='  rounded-md w-full '
-            accept="image/*" 
-            
-            onChange={(e)=> 
-                uploadImage(e)
-                
-            }/>
+          <div>
+            <div className="">Cost</div>
+            <input
+              type="number"
+              placeholder="Enter cost"
+              name="cost"
+              className=" border border-black  rounded-md w-full py-2"
+              onChange={(e) => setCost(e.target.value)}
+            />
+          </div>
 
-            {productImage && <img src={productImage} alt='food' className='h-40 w-40 object-cover'/>}
-        </div>
-      </div>
+          <div>
+            <div className="">Description</div>
+            <textarea
+              rows={5}
+              type="text"
+              placeholder="Enter message"
+              name="description"
+              className="border border-black rounded-md w-full py-2"
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </div>
+          <div>
+            <div className="">Product Image</div>
+            <input
+              type="file"
+              placeholder="Upload image "
+              name="ProductImage"
+              className="  rounded-md w-full "
+              accept="image/*"
+              onChange={(e) => uploadImage(e)}
+            />
 
-      <div className='flex justify-between px-10'>
-        <div className=''>Extras </div>
-        < IoAddCircleOutline  className= "text-3xl cursor-pointer"
-        onClick={()=>setShowExtras(!showExtras)}/>
-        </div>
-
-      {showExtras&& <div className='grid grid-cols-2 gap-4 px-10'>
-       <div>
-          <div className=''>Name</div>
-          <input type='text' placeholder='Enter name' name="addOnname"
-           className='border border-black rounded-md w-full py-2'
-           onChange={(e)=>setaddOnName(e.target.value)} />
-        </div>
-        <div>
-          <div className=''>Price</div>
-          <input type='number' placeholder='Enter price' name="addOnprice" 
-          className='border border-black rounded-md w-full py-2'
-          onChange={(e)=>setaddOnPrice(e.target.value)} />
-        </div>
-        <div>
-          <div className=''>Image</div>
-          <input type='file' placeholder='Upload file' 
-          name="addOnImage" className='border border-black rounded-md w-full py-2'
-          onChange={(e)=>uploadImage(e)} />
-        </div>
-        <div>
-            <div className=''>Description</div>
-            <textarea rows={5} type='text' placeholder='Enter message' name='addOndescription' className=' border border-black rounded-md w-full py-2'
-            onChange={(e)=> 
-                setaddOnDescription(e.target.value)
-                
-            }/>
-        </div>
-
-         <div></div>
-        <button className='p-2 bg-blue-500 rounded-full text-white ' 
-        onClick={()=>addAddOnItems()}>addOnSave</button> 
-
-       </div>}
-
-       <div>
-        <div className='px-10'>Extras added</div>
-        <div>{addOns.map((addOn, index)=>
-        
-      <div key={index}> {addOn.name}</div>)}
-      </div>
+            {productImage && (
+              <img
+                src={productImage}
+                alt="food"
+                className="h-40 w-40 object-cover"
+              />
+            )}
+          </div>
         </div>
 
         <div></div>
-        <button className=' mx-10 px-10 mt-10 bg-blue-500 rounded-full text-white ' 
-        onClick={()=>handleClick()}>Submit</button>
-
+        <button
+          className=" mx-10 px-10 mt-10 bg-blue-500 rounded-full text-white "
+          onClick={() => handleClick()}
+        >
+          Submit
+        </button>
       </div>
+      <ToastContainer position="top-center" />
     </Dashboard>
   );
 }
