@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Dashboard from "../../components/dashboard/Dashboard";
-import { addMenuItem } from "../../apis";
+import { addCategory } from "../../apis";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { firebaseUploadImg } from "../../apis/Upload";
 import { getDownloadURL } from "firebase/storage";
@@ -9,24 +9,22 @@ function Categories() {
   const [name, setName] = useState();
 
   const [description, setDescription] = useState();
-  const [cost, setCost] = useState();
   const [errorMsg, setErrorMsg] = useState();
 
-  const [addonImage, setAddonImage] = useState();
+  const [categoryImage, setCategoryImage] = useState();
 
   const handleClick = async () => {
     try {
       // if(!name||!category||!restaurantName|| !description||!cost){
       //     setErrorMsg('Please enter the required fields')
       //    } else {
-      console.log("adding addons");
-      console.log(name, description, cost);
+      console.log("adding a new category");
+      console.log(name, description);
 
-      const res = await addMenuItem({
+      const res = await addCategory({
         name: name,
         description: description,
-        price: cost,
-        image: addonImage,
+        image: categoryImage,
       });
       setErrorMsg("");
       console.log(res);
@@ -38,10 +36,8 @@ function Categories() {
 
   useEffect(() => {
     console.log(name);
-
-    console.log(cost);
     console.log(description);
-  }, [name, cost, description]);
+  }, [name, description]);
 
   const uploadImage = (input) => {
     const files = input.target.files || [];
@@ -66,8 +62,8 @@ function Categories() {
         (err) => {},
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            console.log("addonImage: ", url);
-            setAddonImage(url);
+            console.log("Category Image: ", url);
+            setCategoryImage(url);
           });
         }
       );
@@ -104,14 +100,23 @@ function Categories() {
           </div>
 
           <div>
-            <div className="">Cost</div>
+            <div className="">Category Image</div>
             <input
-              type="number"
-              placeholder="Enter cost"
-              name="cost"
-              className=" border border-black  rounded-md w-full py-2"
-              onChange={(e) => setCost(e.target.value)}
+              type="file"
+              placeholder="Upload image "
+              name="categoryImage"
+              className="  rounded-md w-full border border-black "
+              accept="image/*"
+              onChange={(e) => uploadImage(e)}
             />
+
+            {categoryImage && (
+              <img
+                src={categoryImage}
+                alt="food"
+                className="h-40 w-40 object-cover"
+              />
+            )}
           </div>
 
           <div>
@@ -125,25 +130,7 @@ function Categories() {
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
-          <div>
-            <div className="">Product Image</div>
-            <input
-              type="file"
-              placeholder="Upload image "
-              name="ProductImage"
-              className="  rounded-md w-full border border-black "
-              accept="image/*"
-              onChange={(e) => uploadImage(e)}
-            />
-
-            {addonImage && (
-              <img
-                src={addonImage}
-                alt="food"
-                className="h-40 w-40 object-cover"
-              />
-            )}
-          </div>
+          
         </div>
 
         <button

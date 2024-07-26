@@ -41,6 +41,14 @@ export const getCategories = async () => {
     return error.response;
   }
 };
+export const addCategory = async (data) => {
+  try {
+    const response = await api.post("/categories", data);
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
 export const getMenuItems = async () => {
   try {
     const response = await api.get("/menuItems");

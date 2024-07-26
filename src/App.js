@@ -9,6 +9,7 @@ import Register from "./pages/Register";
 import LoginUser from "./pages/LoginUser";
 import Edit from "./pages/dashboard/Edit";
 import Addon from "./pages/dashboard/Addon";
+import Categories from "./pages/dashboard/Categories";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/LoginUser" element={<LoginUser />} />
           <Route path="dashboard/edit/:id" element={<Edit />} />
+          <Route path="/dashboard/categories" element={<Categories />} />
         </Routes>
       </Router>
     </div>
