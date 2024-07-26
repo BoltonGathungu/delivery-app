@@ -3,6 +3,7 @@ import { AiFillDashboard } from "react-icons/ai";
 import { FaCartPlus } from "react-icons/fa";
 import { FaUpload } from "react-icons/fa";
 import { IoFastFood } from "react-icons/io5";
+import { TbCategoryPlus } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import { useStore } from "../../store";
 
@@ -55,6 +56,15 @@ function Sidebar() {
           <IoFastFood className="" />
         </div>
         <div className="">Addon</div>
+      </Link>
+      <Link
+        to="/dashboard/categories"
+        className="flex gap-x-5 items-center px-4 py-2 mt-2 cursor-pointer hover:bg-blue-500 mx-1 rounded-full"
+      >
+        <div className="p-2 ">
+          <TbCategoryPlus className="" />
+        </div>
+        <div className="">Categories</div>
       </Link>
     </div>
   );
