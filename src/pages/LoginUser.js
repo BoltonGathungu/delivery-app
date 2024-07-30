@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { login } from "../apis";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import Button from "../components/dashboard/Button";
 
 function LoginUser() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState();
   const navigate = useNavigate();
   // const[isSubmitted, setIsSubmtted] = useState(false);
 
@@ -40,6 +42,7 @@ function LoginUser() {
 
     console.log("loging in");
     if (validateForm()) {
+      setLoading(true)
       try {
         const response = await login({ username: email, password });
         if (response.status === 200) {
@@ -53,6 +56,7 @@ function LoginUser() {
       } catch (error) {
         console.error("An error occurred during login", error);
       }
+      setLoading(false)
     }
   };
 
@@ -92,13 +96,15 @@ function LoginUser() {
               <p className="text-red-600 text-sm mt-1">{errors.password}</p>
             )}
           </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
-            onClick={handleSubmit}
-          >
-            Login
-          </button>
+
+          <Button
+            type='submit'
+            action='Login'
+            onClickHandler={handleSubmit}
+            className='w-full py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600'
+            loading={loading}
+          />
+         
         </form>
         <div className=" flex justify-center items-center pt-6  hover:text-blue-700">
           <Link className="" to="/forgot-password">

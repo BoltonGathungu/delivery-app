@@ -4,6 +4,7 @@ import { useProduct } from "../../store";
 import { useParams } from 'react-router-dom';
 import { getMenuItem } from "../../apis";
 import { updateMenuItem } from "../../apis";
+import Button from "../../components/dashboard/Button";
 
 function Edit() {
   const [name, setName] = useState();
@@ -11,6 +12,7 @@ function Edit() {
   const [description, setDescription] = useState();
   const [cost, setCost] = useState();
   const [errorMsg, setErrorMsg] = useState();
+  const [loading, setLoading] = useState();
   let {id } = useParams();
   console.log(id);
   const fetchProduct = async () => {
@@ -26,12 +28,14 @@ function Edit() {
   
   }
   const updateProductItem= async() =>{
+    setLoading(true);
     try {
       const res = await updateMenuItem(id, {name: name, price:cost, description:description, addOns:[]})
       console.log(res)
     } catch (error) {
       console.log(error)
     }
+    setLoading(false)
   }
   useEffect(()=>{fetchProduct()},[])
   const handleClick = () => {
@@ -95,12 +99,13 @@ function Edit() {
             />
           </div>
 
-          <button
-            className="p-2 bg-blue-500 rounded-full text-white "
-            onClick={()=>updateProductItem()}
-          >
-            Submit
-          </button>
+          <Button 
+            action='Submit'
+            onClickHandler={()=>updateProductItem()}
+            className='p-2 rounded-full'
+            loading={loading}
+          />
+          
         </div>
       </div>
     </Dashboard>
