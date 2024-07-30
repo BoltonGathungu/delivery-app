@@ -23,6 +23,13 @@ export const login = async (data) => {
     .catch((error) => {
       return error.response;
     })};
+export const logout = async () => {
+  return await api
+    .post("/auth/logout")
+    .then((response) => response)
+    .catch((error) => {
+      return error.response;
+    })};
 
 
 // export const login = async (logindata) => {
@@ -36,6 +43,14 @@ export const login = async (data) => {
 export const getCategories = async () => {
   try {
     const response = await api.get("/categories");
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
+export const getUser = async () => {
+  try {
+    const response = await api.get("/user");
     return response;
   } catch (error) {
     return error.response;

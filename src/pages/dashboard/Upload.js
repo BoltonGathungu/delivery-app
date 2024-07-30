@@ -7,18 +7,18 @@ import { getDownloadURL } from "firebase/storage";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import FormInput from "../../components/inputs/FormInput";
 
 function Upload() {
-  const [name, setName] = useState();
-
-  const [description, setDescription] = useState();
-  const [cost, setCost] = useState();
-  const [errorMsg, setErrorMsg] = useState();
-  const [category, setCategory] = useState();
-  const [restaurantName, setRestaurantName] = useState();
+  const initialize = {name:"",description:"",cost:"",restaurantName:"",category:"",productImage:""}
+  const[{name,description,cost,restaurantName,category,productImage},setProduct] = useState(initialize);
+ 
+  
   const [addOns, setAddOns] = useState([]);
-
-  const [productImage, setProductImage] = useState();
+  const [errorMsg, setErrorMsg] = useState();
+  
+  
+ 
   const navigate = useNavigate();
   const handleClick = async () => {
     try {
@@ -59,6 +59,13 @@ function Upload() {
     }
   };
 
+  const handleChange = (input)=>{
+    setProduct((prevState) => ({
+      ...prevState,
+      [input.target.name]: input.target.value,
+    }));
+  };
+
   useEffect(() => {
     console.log(name);
 
@@ -90,7 +97,11 @@ function Upload() {
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
             console.log("productImage: ", url);
-            setProductImage(url);
+            setProduct((prevState) => ({
+              ...prevState,
+              productImage: url,
+            }));
+          
           });
         }
       );
@@ -115,22 +126,26 @@ function Upload() {
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 px-10 ">
-          <div>
-            <div className="">Name</div>
-            <input
-              type="text"
-              placeholder="Enter item name"
-              name="ItemName"
-              className=" rounded-md w-full py-2 px-3  border border-black"
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
+          <FormInput 
+          label   = "Name"
+          type = "text"
+          placeholder="Enter item name"
+          name = "name"
+          onChangeHandler = {handleChange}
+          className= ""
+          />
+         
+
+          
+          
+          
+        
           <div className="">
             <div className=" block text-sm font-medium ">Select Category</div>
             <select
               id="category"
               name="category"
-              onChange={(e) => setCategory(e.target.value)}
+              onChange={handleChange}
               autoComplete="category"
               className="mt-1 block w-full rounded-md border border-black bg-white py-2 px-3 shadow-sm  sm:text-sm"
             >
@@ -155,8 +170,8 @@ function Upload() {
             </div>
             <select
               id="restaurant"
-              name="restaurant"
-              onChange={(e) => setRestaurantName(e.target.value)}
+              name="restaurantName"
+              onChange={handleChange}
               autoComplete="restaurant"
               className="mt-1 block w-full rounded-md border border-black bg-white py-2 px-3 shadow-sm  sm:text-sm"
             >
@@ -166,16 +181,16 @@ function Upload() {
                     
           </div>
 
-          <div>
-            <div className="">Cost</div>
-            <input
-              type="number"
-              placeholder="Enter cost"
-              name="cost"
-              className=" border border-black  rounded-md w-full py-2"
-              onChange={(e) => setCost(e.target.value)}
-            />
-          </div>
+        
+            <FormInput 
+          label = "Cost"
+          type = "number"
+          placeholder="Enter item cost"
+          name = "cost"
+          onChangeHandler = {handleChange}
+          className= ""
+          />
+          
 
           <div>
             <div className="">Description</div>
@@ -185,7 +200,7 @@ function Upload() {
               placeholder="Enter message"
               name="description"
               className="border border-black rounded-md w-full py-2"
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={handleChange}
             />
           </div>
           <div>
