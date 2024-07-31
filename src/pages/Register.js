@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { register } from "../apis";
 import { useNavigate } from "react-router-dom";
+import Button from "../components/dashboard/Button";
 
 function Register() {
   const [email, setEmail] = useState();
@@ -98,15 +99,13 @@ function Register() {
         </select>
       </div>
 
-      <button className="bg-blue-700 text-white px-6 py-1" onClick={onRegister}>
-        {loading ? (
-          <div className=" flex justify-center items-center">
-            <div className="animate-spin rounded-full h-7 w-7 border-b-2 border-white -py-1"></div>
-          </div>
-        ) : (
-          "Register"
-        )}
-      </button>
+      <Button
+        action='Register'
+        onClickHandler={onRegister}
+        className='px-6 py-1 rounded-full'
+        loading={loading}
+      />
+      
     </div>
   );
 }

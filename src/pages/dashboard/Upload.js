@@ -9,14 +9,21 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import FormInput from "../../components/inputs/FormInput";
 import FormSelect from "../../components/inputs/FormSelect";
+import Button from "../../components/dashboard/Button";
 
 function Upload() {
   const initialize = {name:"",description:"",cost:"",restaurantName:"",category:"",productImage:""}
-  const [{ name, description, cost, restaurantName , category, productImage }, setProduct] = useState(initialize);
-
-  const [categories, setCategories] = useState([]);
+  const[{name,description,cost,restaurantName,category,productImage},setProduct] = useState(initialize);
  
-  const [errorMsg, setErrorMsg] = useState("");
+  
+  const [addOns, setAddOns] = useState([]);
+  const [errorMsg, setErrorMsg] = useState();
+  const [loading, setLoading] = useState();
+   const [categories, setCategories] = useState([]);
+  
+
+ 
+ 
 
   const navigate = useNavigate();
 
@@ -37,6 +44,7 @@ function Upload() {
   
 
   const handleClick = async () => {
+    setLoading(true)
     try {
       if (!name || !category ||!restaurantName  || !description || !cost || !productImage) {
         return toast.error("Please enter the required fields!");
@@ -68,6 +76,7 @@ function Upload() {
       console.log(error);
       toast.error("Something went wrong!");
     }
+    setLoading(false)
   };
 
   const handleChange = (input) => {
@@ -207,12 +216,17 @@ function Upload() {
           </div>
         </div>
 
-        <button
-          className="mx-10 px-10 mt-10 bg-blue-500 rounded-full text-white"
-          onClick={() => handleClick()}
-        >
-          Submit
-        </button>
+
+        <div></div>
+
+        <Button
+          action="Submit"
+          onClickHandler={()=>handleClick()}
+          className="mx-10 px-10 mt-10 rounded-full"
+          loading={loading}
+        />
+
+
       </div>
       <ToastContainer position="top-center" />
     </Dashboard>
