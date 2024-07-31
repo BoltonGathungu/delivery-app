@@ -11,7 +11,7 @@ function Button({ type, action, onClickHandler, className, loading }) {
           <div className="animate-spin rounded-full h-7 w-7 border-b-2 border-white -py-1"></div>
         </div>
         ) : 
-          action
+          "This is a Button"
         }
     </button>
   )
