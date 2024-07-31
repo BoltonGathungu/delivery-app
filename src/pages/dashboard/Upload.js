@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import FormInput from "../../components/inputs/FormInput";
+import Button from "../../components/dashboard/Button";
 
 function Upload() {
   const initialize = {name:"",description:"",cost:"",restaurantName:"",category:"",productImage:""}
@@ -16,11 +17,13 @@ function Upload() {
   
   const [addOns, setAddOns] = useState([]);
   const [errorMsg, setErrorMsg] = useState();
+  const [loading, setLoading] = useState();
   
   
  
   const navigate = useNavigate();
   const handleClick = async () => {
+    setLoading(true)
     try {
       if (
         !name ||
@@ -57,6 +60,7 @@ function Upload() {
       console.log(error);
       toast.error("Something went wrong!");
     }
+    setLoading(false)
   };
 
   const handleChange = (input)=>{
@@ -225,12 +229,14 @@ function Upload() {
         </div>
 
         <div></div>
-        <button
-          className=" mx-10 px-10 mt-10 bg-blue-500 rounded-full text-white "
-          onClick={() => handleClick()}
-        >
-          Submit
-        </button>
+
+        <Button
+          action="Submit"
+          onClickHandler={()=>handleClick()}
+          className="mx-10 px-10 mt-10 rounded-full"
+          loading={loading}
+        />
+
       </div>
       <ToastContainer position="top-center" />
     </Dashboard>
