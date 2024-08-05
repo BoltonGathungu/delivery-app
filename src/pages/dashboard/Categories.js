@@ -4,6 +4,7 @@ import { addCategory } from "../../apis";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { firebaseUploadImg } from "../../apis/Upload";
 import { getDownloadURL } from "firebase/storage";
+import Button from "../../components/dashboard/Button";
 
 function Categories() {
   const [name, setName] = useState();
@@ -12,8 +13,10 @@ function Categories() {
   const [errorMsg, setErrorMsg] = useState();
 
   const [categoryImage, setCategoryImage] = useState();
+  const [loading, setLoading] = useState();
 
   const handleClick = async () => {
+    setLoading(true)
     try {
       // if(!name||!category||!restaurantName|| !description||!cost){
       //     setErrorMsg('Please enter the required fields')
@@ -32,6 +35,7 @@ function Categories() {
     } catch (error) {
       console.log(error);
     }
+    setLoading(false)
   };
 
   useEffect(() => {
@@ -132,13 +136,13 @@ function Categories() {
           </div>
           
         </div>
-
-        <button
-          className=" mx-10 px-10 mt-10 bg-blue-500 rounded-full text-white "
-          onClick={() => handleClick()}
-        >
-          Submit
-        </button>
+        <Button 
+          action="Submit"
+          onClickHandler={()=>handleClick()}
+          className="mx-10 px-10 mt-10 rounded-full"
+          loading={loading}
+        />
+        
       </div>
     </Dashboard>
   );

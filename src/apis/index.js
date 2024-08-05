@@ -48,6 +48,7 @@ export const getCategories = async () => {
     return error.response;
   }
 };
+
 export const getUser = async () => {
   try {
     const response = await api.get("/user");
