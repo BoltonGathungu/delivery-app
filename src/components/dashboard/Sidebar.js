@@ -20,7 +20,7 @@ function Sidebar() {
         <div className="">Delivery App</div>
       </div>
 
-      {/* <Link to="/dashboard/products">
+      <Link to="/dashboard/products">
         <div className={`flex gap-x-5 items-center px-4 py-2 mt-2 cursor-pointer ${location.pathname == "/dashboard/products" && "bg-blue-500"} hover:bg-blue-500 mx-1 rounded-full`}>
           <div className="p-2 ">
             <AiFillDashboard className="text-xl" />
@@ -29,14 +29,7 @@ function Sidebar() {
 
           <div className="">{products}</div>
         </div>
-      </Link> */}
-
-      <NavigationButton
-        to="/dashboard/products"
-        Icon = {<AiFillDashboard />}
-        buttonName='Products'
-        className = 'text-xl'
-      />
+      </Link>
 
       <Link to="/dashboard/sales">
         <div className={`flex gap-x-5 items-center px-4 py-2 mt-2 cursor-pointer ${location.pathname == "/dashboard/sales" && "bg-blue-500"} hover:bg-blue-500 mx-1 rounded-full`}>
@@ -79,24 +72,3 @@ function Sidebar() {
 }
 
 export default Sidebar;
-
-
-function NavigationButton(to, buttonName, Icon, products, className) {
-  const location = useLocation()
-
-  return (
-  <>
-    <Link to={to}>
-      <div className={`flex gap-x-5 items-center px-4 py-2 mt-2 cursor-pointer ${location.pathname == '/dashboard/products' && "bg-blue-500"} hover:bg-blue-500 mx-1 rounded-full`}>
-        <div className="p-2 ">
-          <Icon className={`${className}`}/>
-        </div>
-        <div className="">{buttonName}</div>
-
-        {buttonName === 'Products' && <div className="">{products}</div>}
-        
-      </div>
-    </Link>
-  </>
-  )
-}
