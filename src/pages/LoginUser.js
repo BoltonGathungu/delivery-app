@@ -61,55 +61,57 @@ function LoginUser() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-10 rounded-lg shadow-lg w-full max-w-md">
-        <div className="text-2xl font-bold mb-6 text-center">Login</div>
+    <div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="bg-white p-10 rounded-lg shadow-lg w-full max-w-md">
+          <div className="text-2xl font-bold mb-6 text-center">Login</div>
 
-        {errors.message && (
-          <p className="text-red-600 text-sm mt-1">{errors.message}</p>
-        )}
+          {errors.message && (
+            <p className="text-red-600 text-sm mt-1">{errors.message}</p>
+          )}
 
-        <form>
-          <div className="mb-4">
-            <div className="block text-gray-700">Email</div>
-            <input
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              type="email"
-              name = "email"
-              placeholder="Enter valid email"
-              onChange={(e) => setEmail(e.target.value)}
+          <form>
+            <div className="mb-4">
+              <div className="block text-gray-700">Email</div>
+              <input
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                type="email"
+                name = "email"
+                placeholder="Enter valid email"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              {errors.email && (
+                <p className="text-red-600 text-sm mt-1">{errors.email}</p>
+              )}
+            </div>
+            <div className="mb-6">
+              <label className="block text-gray-700">Password</label>
+              <input
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                type="password"
+                name="password"
+                placeholder="Enter password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              {errors.password && (
+                <p className="text-red-600 text-sm mt-1">{errors.password}</p>
+              )}
+            </div>
+
+            <Button
+              type='submit'
+              action='Login'
+              onClickHandler={handleSubmit}
+              className='w-full py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600'
+              loading={loading}
             />
-            {errors.email && (
-              <p className="text-red-600 text-sm mt-1">{errors.email}</p>
-            )}
+          
+          </form>
+          <div className=" flex justify-center items-center pt-6  hover:text-blue-700">
+            <Link className="" to="/forgot-password">
+              Forgot Password?
+            </Link>
           </div>
-          <div className="mb-6">
-            <label className="block text-gray-700">Password</label>
-            <input
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              type="password"
-              name="password"
-              placeholder="Enter password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            {errors.password && (
-              <p className="text-red-600 text-sm mt-1">{errors.password}</p>
-            )}
-          </div>
-
-          <Button
-            type='submit'
-            action='Login'
-            onClickHandler={handleSubmit}
-            className='w-full py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600'
-            loading={loading}
-          />
-         
-        </form>
-        <div className=" flex justify-center items-center pt-6  hover:text-blue-700">
-          <Link className="" to="/forgot-password">
-            Forgot Password?
-          </Link>
         </div>
       </div>
     </div>

@@ -4,11 +4,12 @@ import { FaCartPlus } from "react-icons/fa";
 import { FaUpload } from "react-icons/fa";
 import { IoFastFood } from "react-icons/io5";
 import { TbCategoryPlus } from "react-icons/tb";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useStore } from "../../store";
 
 function Sidebar() {
   const products = useStore((state) => state.products);
+  const location = useLocation()
 
   return (
     <div className="w-[250px] h-screen overflow-y-scroll bg-black text-white pt-5">
@@ -20,7 +21,7 @@ function Sidebar() {
       </div>
 
       <Link to="/dashboard/products">
-        <div className="flex gap-x-5 items-center px-4 py-2 mt-2 cursor-pointer hover:bg-blue-500 mx-1 rounded-full">
+        <div className={`flex gap-x-5 items-center px-4 py-2 mt-2 cursor-pointer ${location.pathname == "/dashboard/products" && "bg-blue-500"} hover:bg-blue-500 mx-1 rounded-full`}>
           <div className="p-2 ">
             <AiFillDashboard className="text-xl" />
           </div>
@@ -31,7 +32,7 @@ function Sidebar() {
       </Link>
 
       <Link to="/dashboard/sales">
-        <div className="flex gap-x-5 items-center px-4 py-2 mt-2 cursor-pointer hover:bg-blue-500 mx-1 rounded-full">
+        <div className={`flex gap-x-5 items-center px-4 py-2 mt-2 cursor-pointer ${location.pathname == "/dashboard/sales" && "bg-blue-500"} hover:bg-blue-500 mx-1 rounded-full`}>
           <div className="p-2 ">
             <FaCartPlus className="" />
           </div>
@@ -41,8 +42,8 @@ function Sidebar() {
 
       <Link
         to="/dashboard/upload"
-        className="flex gap-x-5 items-center px-4 py-2 mt-2 cursor-pointer hover:bg-blue-500 mx-1 rounded-full"
-      >
+        className={`flex gap-x-5 items-center px-4 py-2 mt-2 cursor-pointer ${location.pathname == "/dashboard/upload" && "bg-blue-500"} hover:bg-blue-500 mx-1 rounded-full`
+        }>
         <div className="p-2 ">
           <FaUpload className="" />
         </div>
@@ -50,7 +51,7 @@ function Sidebar() {
       </Link>
       <Link
         to="/dashboard/addon"
-        className="flex gap-x-5 items-center px-4 py-2 mt-2 cursor-pointer hover:bg-blue-500 mx-1 rounded-full"
+        className={`flex gap-x-5 items-center px-4 py-2 mt-2 cursor-pointer ${location.pathname == "/dashboard/addon" && "bg-blue-500"} hover:bg-blue-500 mx-1 rounded-full`}
       >
         <div className="p-2 ">
           <IoFastFood className="" />
@@ -59,7 +60,7 @@ function Sidebar() {
       </Link>
       <Link
         to="/dashboard/categories"
-        className="flex gap-x-5 items-center px-4 py-2 mt-2 cursor-pointer hover:bg-blue-500 mx-1 rounded-full"
+        className={`flex gap-x-5 items-center px-4 py-2 mt-2 cursor-pointer ${location.pathname == "/dashboard/categories" && "bg-blue-500"} hover:bg-blue-500 mx-1 rounded-full`}
       >
         <div className="p-2 ">
           <TbCategoryPlus className="" />
